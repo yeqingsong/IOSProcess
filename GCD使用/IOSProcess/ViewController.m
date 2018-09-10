@@ -65,7 +65,7 @@
     [self GCDSemaphoreShiYong];
 }
 
-//参考 https://www.cnblogs.com/yajunLi/p/6274282.html
+//参考 https://www.cnblogs.com/snailHL/p/3906112.html
 ////创建信号量，参数：信号量的初值，如果小于0则会返回NULL，最大可开辟的线程量
 //dispatch_semaphore_create（信号量值）
 //
