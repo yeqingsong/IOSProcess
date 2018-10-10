@@ -6,6 +6,8 @@
 //  Copyright © 2018年 yqs. All rights reserved.
 //
 
+
+//https://www.jianshu.com/p/4b1d77054b35
 //NSOperation是基于GCD之上的更高一层封装，NSOperation需要配合NSOperationQueue来实现多线程。
 // 实现方式
 //1. 创建任务：先将需要执行的操作封装到NSOperation对象中。
@@ -33,18 +35,18 @@
 //    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(invocationOperation:) object:@"我是你"];
 //    [operation start];
 //    创建一个NSBlockOperation任务
-//    [self testNSBlockOperationExecution];
+    [self testNSBlockOperationExecution];
 //    NSOperation + NSOperationQueue的基本结合使用
 //    [self testOperationQueue];
 //    NSOperation的操作依赖
-    [self testAddDependency];
+//    [self testAddDependency];
 }
 #pragma mark -- NSOperation的操作依赖
 //NSOperation有一个非常好用的方法，就是操作依赖。可以从字面意思理解：某一个操作（operation2）依赖于另一个操作（operation1），只有当operation1执行完毕，才能执行operation2。
 - (void)testAddDependency {
     // 并发队列
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    NSInvocationOperation *invocationOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(invocationOperationAddOperation:) object:nil];
+//    NSInvocationOperation *invocationOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(invocationOperationAddOperation:) object:nil];
     // 操作1
     NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
         for (int i = 0; i < 3; i++) {
@@ -101,7 +103,9 @@
             self.view.backgroundColor = [UIColor grayColor];
         });
     }];
-    
+//    queuePriority代表优先级,优先级不会影响依赖关系
+    //在同一队列中的任务,处于准备就绪状态下的任务,优先级高的先执行
+    blockOperation.queuePriority = NSOperationQueuePriorityLow;
     //加入队列默认开启
     
     //暂停队列在它上面的会继续执行下面的不再执行
