@@ -151,7 +151,8 @@
 -(void)GCDgroupShiYong{
     //创建GCD组
     dispatch_group_t group =  dispatch_group_create();
-    
+    dispatch_group_enter(group);
+    dispatch_group_enter(group);
     __block UIImage *image1 ;
     __block UIImage *image2 ;
     //添加GCD组成员
@@ -161,6 +162,7 @@
         NSData *picData = [NSData dataWithContentsOfURL:picURL];
         image1 = [UIImage imageWithData:picData];
         NSLog(@"队列组：有一个耗时操作完成！");
+        dispatch_group_leave(group);
     });
     //添加GCD组成员
     dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
@@ -169,8 +171,10 @@
         NSData *picData = [NSData dataWithContentsOfURL:picURL];
         image2 = [UIImage imageWithData:picData];
         NSLog(@"队列组：有一个耗时操作完成！");
+        dispatch_group_leave(group);
     });
     ///组操作会等待组里的异步操作执行完以后再接受notify，开始执行dispatch_group_notify方法，不会阻碍主线程所以操作3最先输出
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         self.imageView.image = image1;
         self.imageView1.image = image2;
